@@ -5,7 +5,7 @@ Creates a ChatGPT [LangChain](https://github.com/hwchase17/langchain) LLM model 
 ## Installation
 - First, install the `ibl-ai-chatgpt-langchain` package using `pip` by running this command:
 ```
-pip install ibl-ai-chatgpt-langchain
+pip install git+https://github.com/ibleducation/ibl-ai-chatgpt-langchain.git
 ```
 - Create a `.env` in the root directory of your project (e.g. if you use Django, the `.env` file should exist in the same directory as `manage.py`). In the `.env` file, put in your credentials, like below:
 ```
