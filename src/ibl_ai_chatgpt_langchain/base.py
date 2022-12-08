@@ -3,8 +3,9 @@ import sys
 
 from dotenv import load_dotenv
 from langchain.llms.base import LLM
-from pyChatGPT import Chat
-from pyChatGPT.classes.exceptions import Auth0Exception
+from pychatgpt.classes.exceptions import Auth0Exception
+from pychatgpt import Chat, Options
+
 from pydantic import BaseModel
 
 from exceptions import IBLChatGPTError
@@ -14,9 +15,10 @@ load_dotenv()
 
 class IBLChatGPT(LLM, BaseModel):
     def __call__(self, prompt: str, stop=None) -> str:
+        options = Options()
         try:
             chat = Chat(
-                email=os.environ["OPENAI_EMAIL"], password=os.environ["OPENAI_PASSWORD"]
+                email=os.environ["OPENAI_EMAIL"], password=os.environ["OPENAI_PASSWORD"], options=options,
             )
         except Auth0Exception as e:
             if "Password was incorrect" in str(e):
