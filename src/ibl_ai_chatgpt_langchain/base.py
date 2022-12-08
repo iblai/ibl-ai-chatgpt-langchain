@@ -8,7 +8,7 @@ from pychatgpt import Chat, Options
 
 from pydantic import BaseModel
 
-from exceptions import IBLChatGPTError
+from ibl_ai_chatgpt_langchain.exceptions import IBLChatGPTError
 
 load_dotenv()
 
