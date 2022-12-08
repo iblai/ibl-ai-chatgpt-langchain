@@ -27,12 +27,20 @@ def singleton(cls, *args, **kw):
 @singleton
 class ChatClientContainer:
     def __init__(self):
+        self.chat = None
+        self.refresh_chat()
+
+    def refresh_chat(self):
+        self.chat = self.make_chat()
+
+    def make_chat(self):
         try:
-            self.chat = Chat(
+            chat = Chat(
                 email=os.environ["OPENAI_EMAIL"],
                 password=os.environ["OPENAI_PASSWORD"],
                 options=options,
             )
+            return chat
         except Auth0Exception as e:
             if "Password was incorrect" in str(e):
                 raise IBLChatGPTError(
@@ -46,8 +54,13 @@ class ChatClientContainer:
 
 class IBLChatGPT(LLM, BaseModel):
     def __call__(self, prompt: str, stop=None) -> str:
-        chat = ChatClientContainer().chat
-        answer = chat.ask(prompt)
+        container = ChatClientContainer()
+        chat = container.chat
+        try:
+            answer = chat.ask(prompt)
+        except BaseException:
+            container.refresh_chat()
+            answer = chat.ask(prompt)
         return answer
 
 

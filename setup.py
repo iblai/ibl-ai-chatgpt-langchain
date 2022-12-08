@@ -25,5 +25,5 @@ setup(
         "python-dotenv",
         "chatgptpy",
         "pydantic",
-                      ],
+    ],
 )
