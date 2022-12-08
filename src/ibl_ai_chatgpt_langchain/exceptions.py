@@ -1,4 +1,4 @@
-from pyChatGPT.classes.exceptions import Auth0Exception
+from pychatgpt.classes.exceptions import Auth0Exception
 
 
 class IBLChatGPTError(Auth0Exception):
