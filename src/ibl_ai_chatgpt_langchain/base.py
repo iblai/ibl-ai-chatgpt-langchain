@@ -53,13 +53,14 @@ class ChatClientContainer:
 
 
 class IBLChatGPT(LLM, BaseModel):
+    _container = ChatClientContainer()
+
     def __call__(self, prompt: str, stop=None) -> str:
-        container = ChatClientContainer()
-        chat = container.chat
+        chat = self._container.chat
         try:
             answer = chat.ask(prompt)
         except BaseException:
-            container.refresh_chat()
+            self._container.refresh_chat()
             answer = chat.ask(prompt)
         return answer
 
