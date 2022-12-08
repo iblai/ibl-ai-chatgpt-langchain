@@ -3,22 +3,35 @@ import sys
 
 from dotenv import load_dotenv
 from langchain.llms.base import LLM
-from pychatgpt.classes.exceptions import Auth0Exception
 from pychatgpt import Chat, Options
-
+from pychatgpt.classes.exceptions import Auth0Exception
 from pydantic import BaseModel
 
 from ibl_ai_chatgpt_langchain.exceptions import IBLChatGPTError
 
 load_dotenv()
+options = Options()
 
 
-class IBLChatGPT(LLM, BaseModel):
-    def __call__(self, prompt: str, stop=None) -> str:
-        options = Options()
+def singleton(cls, *args, **kw):
+    instances = {}
+
+    def _singleton(*args, **kw):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kw)
+        return instances[cls]
+
+    return _singleton
+
+
+@singleton
+class ChatClientContainer:
+    def __init__(self):
         try:
-            chat = Chat(
-                email=os.environ["OPENAI_EMAIL"], password=os.environ["OPENAI_PASSWORD"], options=options,
+            self.chat = Chat(
+                email=os.environ["OPENAI_EMAIL"],
+                password=os.environ["OPENAI_PASSWORD"],
+                options=options,
             )
         except Auth0Exception as e:
             if "Password was incorrect" in str(e):
@@ -29,6 +42,11 @@ class IBLChatGPT(LLM, BaseModel):
                 raise IBLChatGPTError(
                     "Too many people are using ChatGPT right now, so please try again later! :3"
                 )
+
+
+class IBLChatGPT(LLM, BaseModel):
+    def __call__(self, prompt: str, stop=None) -> str:
+        chat = ChatClientContainer().chat
         answer = chat.ask(prompt)
         return answer
 
