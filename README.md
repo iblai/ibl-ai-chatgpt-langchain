@@ -1,6 +1,6 @@
 # ChatGPT Langchain LLM
 
-Creates a ChatGPT [langchain](https://github.com/hwchase17/langchain) LLM model via [PyChatGPT](https://github.com/rawandahmad698/PyChatGPT).
+Creates a ChatGPT [LangChain](https://github.com/hwchase17/langchain) LLM model via [PyChatGPT](https://github.com/rawandahmad698/PyChatGPT).
 
 ## Installation (on existing axd manager)
 
