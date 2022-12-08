@@ -3,25 +3,28 @@
 Creates a ChatGPT [LangChain](https://github.com/hwchase17/langchain) LLM model via [PyChatGPT](https://github.com/rawandahmad698/PyChatGPT).
 
 ## Installation
-
-- Create a .env in the root directory
-- Copy the content of the `.env.template` file to `.env` and update this file based on the text in each entry.
-- Run `make setup`
-
-## Credentials
-
-The following openai credentials are required:
-
-Sample .env file
-
+- First, install the `ibl-ai-chatgpt-langchain` package using `pip` by running this command:
 ```
-EMAIL=info@ibleducation.com
-PASSWORD=XXXX
+pip install ibl-ai-chatgpt-langchain
 ```
+- Create a `.env` in the root directory of your project (e.g. if you use Django, the `.env` file should exist in the same directory as `manage.py`). In the `.env` file, put in your credentials, like below:
+```
+OPENAI_EMAIL=info@ibleducation.com
+OPENAI_PASSWORD=XXXX
+```
+- (Optional) If you don't want to create a `.env` file or do not know where it should be placed, you can also export the credentials in your shell (like bash, zsh, etc). Just run the commands below:
+```
+export OPENAI_EMAIL=info@ibleducation.com
+export OPENAI_PASSWORD=XXXX
+```
+- Aaand now we are good to go!
+
 
 ## Usage
 
-Here is an example:
+Here is an example of me,
+
+asking ChatGPT what she thinks about the value of AI in education:
 
 ```
 from langchain.prompts import PromptTemplate
