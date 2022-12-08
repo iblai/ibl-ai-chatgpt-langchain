@@ -2,22 +2,27 @@
 
 Creates a ChatGPT [LangChain](https://github.com/hwchase17/langchain) LLM model via [PyChatGPT](https://github.com/rawandahmad698/PyChatGPT).
 
-## Installation (on existing axd manager)
+## Installation
+
 - Create a .env in the root directory
 - Copy the content of the `.env.template` file to `.env` and update this file based on the text in each entry.
 - Run `make setup`
 
-## Credentials 
+## Credentials
+
 The following openai credentials are required:
 
 Sample .env file
+
 ```
 EMAIL=info@ibleducation.com
 PASSWORD=XXXX
 ```
 
 ## Usage
+
 Here is an example:
+
 ```
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
@@ -38,7 +43,9 @@ chain = LLMChain(llm=llm, prompt=prompt)
 # ask ChatGPT if she likes the national anthem of the UK.
 chain.run("the United Kingdom")
 ```
+
 And here is the example output:
+
 ```
 >> Access Token missing or expired. Attempting to create them...
 [OpenAI] Email address: does-not-exist@ibleducation.com
