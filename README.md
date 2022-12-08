@@ -40,7 +40,7 @@ prompt = PromptTemplate(
 # make a chain
 chain = LLMChain(llm=llm, prompt=prompt)
 
-# ask ChatGPT if she likes the national anthem of the UK.
+# ask ChatGPT what she thinks about AI in education.
 chain.run("AI")
 ```
 
