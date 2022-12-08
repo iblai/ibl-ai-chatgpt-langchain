@@ -5,15 +5,14 @@ from dotenv import load_dotenv
 from langchain.llms.base import LLM
 from pyChatGPT import Chat
 from pyChatGPT.classes.exceptions import Auth0Exception
+from pydantic import BaseModel
 
 from exceptions import IBLChatGPTError
 
 load_dotenv()
 
 
-class IBLChatGPT(LLM):
-    def __init__(self, *args, **kwargs):
-        ...
+class IBLChatGPT(LLM, BaseModel):
     def __call__(self, prompt: str, stop=None) -> str:
         try:
             chat = Chat(
