@@ -12,7 +12,9 @@ load_dotenv()
 
 
 class IBLChatGPT(LLM):
-    def __call__(self, prompt: str) -> str:
+    def __init__(self, *args, **kwargs):
+        ...
+    def __call__(self, prompt: str, stop=None) -> str:
         try:
             chat = Chat(
                 email=os.environ["OPENAI_EMAIL"], password=os.environ["OPENAI_PASSWORD"]
