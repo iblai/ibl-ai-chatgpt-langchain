@@ -1,8 +1,8 @@
-# ibl llm chat gpt
+# ChatGPT Langchain LLM
 
-The app leverages langchanin and pychatgpt to connect to chatgpt
+Creates a ChatGPT [langchain](https://github.com/hwchase17/langchain) LLM model via [PyChatGPT](https://github.com/rawandahmad698/PyChatGPT).
 
-## Installation(on existing axd manager)
+## Installation (on existing axd manager)
 
 - Clone the `.env.template ` and add your credentiala
 - Run `make setup`
