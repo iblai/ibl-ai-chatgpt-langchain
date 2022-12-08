@@ -1,9 +1,0 @@
-README.md
-setup.py
-src/__init__.py
-src/base.py
-src/exceptions.py
-src/ibl_ai_chatgpt_langchain.egg-info/PKG-INFO
-src/ibl_ai_chatgpt_langchain.egg-info/SOURCES.txt
-src/ibl_ai_chatgpt_langchain.egg-info/dependency_links.txt
-src/ibl_ai_chatgpt_langchain.egg-info/top_level.txt
