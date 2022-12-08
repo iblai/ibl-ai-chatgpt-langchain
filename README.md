@@ -3,11 +3,18 @@
 Creates a ChatGPT [LangChain](https://github.com/hwchase17/langchain) LLM model via [PyChatGPT](https://github.com/rawandahmad698/PyChatGPT).
 
 ## Installation (on existing axd manager)
-
-- Clone the `.env.template ` and add your credentiala
+- Create a .env in the root directory
+- Copy the content of the `.env.template` file to `.env` and update this file based on the text in each entry.
 - Run `make setup`
-- To chat with chatgpt run `make chat question="How are you today"
 
+## Credentials 
+The following openai credentials are required:
+
+Sample .env file
+```
+EMAIL=info@ibleducation.com
+PASSWORD=XXXX
+```
 
 ## Usage
 Here is an example:
