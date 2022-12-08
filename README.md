@@ -1,4 +1,4 @@
-# ChatGPT Langchain LLM
+# ChatGPT LangChain LLM
 
 Creates a ChatGPT [LangChain](https://github.com/hwchase17/langchain) LLM model via [PyChatGPT](https://github.com/rawandahmad698/PyChatGPT).
 
