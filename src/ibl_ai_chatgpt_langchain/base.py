@@ -32,13 +32,13 @@ class ChatClientContainer:
         self.chat_clients = dict()  # org ids to clients
         self.timeout = 3600
 
-    def get_chat(self, unique_id, email: t.Optional[str], passowrd: t.Optional[str]):
+    def get_chat(self, unique_id, email: t.Optional[str], password: t.Optional[str]):
         client_data = self.chat_clients.get(unique_id, {})
         if not client_data.get("timestamp"):
-            self.make_chat(unique_id, email, passowrd)
+            self.make_chat(unique_id, email, password)
         elif time.time() > client_data["timestamp"] + 3600:
             self.make_chat(unique_id, client_data["email"], client_data["password"])
-        return client_data["client"]
+        return self.chat_clients[unique_id]['client']
 
     def make_chat(self, unique_id: str, email: str, password: str, options=None):
         if options is None:
