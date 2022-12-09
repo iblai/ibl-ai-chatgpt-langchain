@@ -69,7 +69,7 @@ class ChatClientContainer:
 class IBLChatGPT(LLM, BaseModel):
     openai_email: t.Optional[str] = os.environ.get("OPENAI_EMAIL")
     openai_password: t.Optional[str] = os.environ.get("OPENAI_PASSWORD")
-    unique_id = uuid.uuid4
+    unique_id = lambda self: uuid.uuid4()
 
     def __call__(self, prompt: str, stop=None) -> str:
         if callable(self.unique_id):
