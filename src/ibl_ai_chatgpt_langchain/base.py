@@ -33,7 +33,7 @@ class ChatClientContainer:
         self.timeout = 3600
 
     def get_chat(self, unique_id, email: t.Optional[str], passowrd: t.Optional[str]):
-        client_data = self.chat_clients.get(unique_id)
+        client_data = self.chat_clients.get(unique_id, {})
         if not client_data.get("timestamp"):
             self.make_chat(unique_id, email, passowrd)
         elif time.time() > client_data["timestamp"] + 3600:
