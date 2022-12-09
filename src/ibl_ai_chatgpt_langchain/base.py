@@ -72,7 +72,7 @@ class IBLChatGPT(LLM, BaseModel):
     unique_id = uuid.uuid4().hex
 
     def __call__(self, prompt: str, stop=None) -> str:
-        container = ChatClientContainer().get_client(
+        container = ChatClientContainer().get_chat(
             self.unique_id, self.openai_email, self.openai_password
         )
         chat = container.chat
