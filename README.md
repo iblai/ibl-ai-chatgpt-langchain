@@ -22,9 +22,7 @@ export OPENAI_PASSWORD=XXXX
 
 ## Usage
 
-Here is an example of me,
-
-asking ChatGPT what she thinks about the value of AI in education:
+Here is an example asking ChatGPT what she thinks about the value of AI in education:
 
 ```
 from langchain.prompts import PromptTemplate
