@@ -38,7 +38,7 @@ class ChatClientContainer:
             self.make_chat(unique_id, email, passowrd)
         elif time.time() > client_data["timestamp"] + 3600:
             self.make_chat(unique_id, client_data["email"], client_data["password"])
-        return self.chat_clients["client"]
+        return client_data["client"]
 
     def make_chat(self, unique_id: str, email: str, password: str, options=None):
         if options is None:
