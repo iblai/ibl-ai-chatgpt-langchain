@@ -1,5 +1,8 @@
 import os
 import sys
+import time
+import typing as t
+import uuid
 
 from dotenv import load_dotenv
 from langchain.llms.base import LLM
@@ -10,7 +13,6 @@ from pydantic import BaseModel
 from ibl_ai_chatgpt_langchain.exceptions import IBLChatGPTError
 
 load_dotenv()
-options = Options()
 
 
 def singleton(cls, *args, **kw):
@@ -27,20 +29,32 @@ def singleton(cls, *args, **kw):
 @singleton
 class ChatClientContainer:
     def __init__(self):
-        self.chat = None
-        self.refresh_chat()
+        self.chat_clients = dict()  # org ids to clients
+        self.timeout = 3600
 
-    def refresh_chat(self):
-        self.chat = self.make_chat()
+    def get_chat(self, unique_id, email: t.Optional[str], passowrd: t.Optional[str]):
+        client_data = self.chat_clients.get(unique_id)
+        if not client_data.get("timestamp"):
+            self.make_chat(unique_id, email, passowrd)
+        elif time.time() > client_data["timestamp"] + 3600:
+            self.make_chat(unique_id, client_data["email"], client_data["password"])
+        return self.chat_clients["client"]
 
-    def make_chat(self):
+    def make_chat(self, unique_id: str, email: str, password: str, options=None):
+        if options is None:
+            options = Options()
         try:
             chat = Chat(
-                email=os.environ["OPENAI_EMAIL"],
-                password=os.environ["OPENAI_PASSWORD"],
+                email=email,
+                password=password,
                 options=options,
             )
-            return chat
+            self.chat_clients[unique_id] = {
+                "client": chat,
+                "timestamp": time.time(),
+                "email": email,
+                "password": password,
+            }
         except Auth0Exception as e:
             if "Password was incorrect" in str(e):
                 raise IBLChatGPTError(
@@ -53,8 +67,16 @@ class ChatClientContainer:
 
 
 class IBLChatGPT(LLM, BaseModel):
+    openai_email: t.Optional[str] = os.environ.get("OPENAI_EMAIL")
+    openai_password: t.Optional[str] = os.environ.get("OPENAI_PASSWORD")
+    unique_id = uuid.uuid4
+
     def __call__(self, prompt: str, stop=None) -> str:
-        container = ChatClientContainer()
+        if callable(self.unique_id):
+            self.unique_id = self.unique_id()
+        container = ChatClientContainer().get_client(
+            self.unique_id, self.openai_email, self.openai_password
+        )
         chat = container.chat
         try:
             answer = chat.ask(prompt)
