@@ -32,13 +32,15 @@ class ChatClientContainer:
         self.chat_clients = dict()  # org ids to clients
         self.timeout = 3600
 
-    def get_chat(self, unique_id, email: t.Optional[str], password: t.Optional[str]):
+    def get_chat(
+        self, unique_id, email: t.Optional[str] = None, password: t.Optional[str] = None
+    ):
         client_data = self.chat_clients.get(unique_id, {})
         if not client_data.get("timestamp"):
             self.make_chat(unique_id, email, password)
         elif time.time() > client_data["timestamp"] + 3600:
             self.make_chat(unique_id, client_data["email"], client_data["password"])
-        return self.chat_clients[unique_id]['client']
+        return self.chat_clients[unique_id]["client"]
 
     def make_chat(self, unique_id: str, email: str, password: str, options=None):
         if options is None:
@@ -72,14 +74,15 @@ class IBLChatGPT(LLM, BaseModel):
     unique_id = uuid.uuid4().hex
 
     def __call__(self, prompt: str, stop=None) -> str:
-        container = ChatClientContainer().get_chat(
+        container = ChatClientContainer()
+        chat = container.get_chat(
             self.unique_id, self.openai_email, self.openai_password
         )
-        chat = container.chat
         try:
             answer = chat.ask(prompt)
         except BaseException:
-            container.refresh_chat()
+            container.make_chat(self.unique_id, self.openai_email, self.openai_password)
+            chat = container.get_chat(self.unique_id)
             answer = chat.ask(prompt)
         return answer
 
