@@ -95,6 +95,8 @@ class IBLChatGPT(LLM, BaseModel):
         return answer
 
 
+__all__ = ['IBLChatGPT']
+
 if __name__ == "__main__":
     llm = IBLChatGPT()
     response = llm(sys.argv[1])
