@@ -11,7 +11,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name="ibl-ai-chatgpt-langchain",
-    version="1.0.0",
+    version="1.1.0",
     description="ChatGPT LLM for langchain by IBL",
     author="IBL",
     author_email="info@ibleducation.com",
