@@ -28,9 +28,10 @@ def singleton(cls, *args, **kw):
 
 @singleton
 class ChatClientContainer:
-    def __init__(self):
+    def __init__(self, **kw):
         self.chat_clients = dict()  # org ids to clients
         self.timeout = 3600
+        self.kw = kw
 
     def get_chat(
         self, unique_id, email: t.Optional[str] = None, password: t.Optional[str] = None
@@ -50,6 +51,7 @@ class ChatClientContainer:
                 email=email,
                 password=password,
                 options=options,
+                **self.kw,
             )
             self.chat_clients[unique_id] = {
                 "client": chat,
@@ -73,8 +75,8 @@ class IBLChatGPT(LLM, BaseModel):
     openai_password: t.Optional[str] = os.environ.get("OPENAI_PASSWORD")
     unique_id = uuid.uuid4().hex
 
-    def __call__(self, prompt: str, stop=None) -> str:
-        container = ChatClientContainer()
+    def __call__(self, prompt: str, stop=None, **kw) -> str:
+        container = ChatClientContainer(**kw)
         chat = container.get_chat(
             self.unique_id, self.openai_email, self.openai_password
         )
