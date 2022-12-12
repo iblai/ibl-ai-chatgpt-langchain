@@ -76,9 +76,13 @@ class IBLChatGPT(LLM, BaseModel):
 
     def __call__(self, prompt: str, stop=None) -> str:
         container = ChatClientContainer()
-        chat = container.get_chat(
-            self.unique_id, self.openai_email, self.openai_password
-        )
+        try:
+            chat = container.get_chat(
+                self.unique_id, self.openai_email, self.openai_password
+            )
+        except KeyError:
+            return "Sorry, we can't create a chat client for you at the moment. " \
+                   "Our engineers are looking into this right now."
         try:
             answer = chat.ask(prompt)
         except BaseException:
