@@ -80,9 +80,12 @@ class IBLChatGPT(LLM, BaseModel):
             chat = container.get_chat(
                 self.unique_id, self.openai_email, self.openai_password
             )
-        except KeyError:
-            return "Sorry, we can't create a chat client for you at the moment. " \
-                   "Our engineers are looking into this right now."
+        except Auth0Exception:
+            return "Sorry, we have trouble authenticating your request" \
+                   " (this doesn't mean your email/password is wrong)." \
+                   " Our engineers are looking into it."
+        except BaseException as e:
+            return f"Unknown error {str(e)}"
         try:
             answer = chat.ask(prompt)
         except BaseException:
