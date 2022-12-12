@@ -66,6 +66,7 @@ class ChatClientContainer:
                 raise IBLChatGPTError(
                     "Too many people are using ChatGPT right now, so please try again later! :3"
                 )
+            raise
 
 
 class IBLChatGPT(LLM, BaseModel):
